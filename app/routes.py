@@ -5,4 +5,23 @@ from flask import render_template
 @app.route('/home')
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', index=True)
+
+listTimetable={'Monday': ['Algebra', 'Chemistry', 'Literature', 'Music'],
+           'Thusday': ['Technology ', 'Algebra', 'History', 'Music']}
+@app.route('/timetable')
+def timetable():
+    return render_template('timetable.html', listTimetable=listTimetable, timetable=True)
+
+@app.route('/register')
+def register():
+    return render_template('register.html', register=True)\
+
+@app.route('/login')
+def login():
+    return render_template('login.html', login=True)
+
+@app.route('/logout')
+def logout():
+    return render_template('logout.html', logout=True)
+

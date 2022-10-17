@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Расписание уроков</title>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for day in listTimetable %}
+            <li>Day: {{day}}, timetable: {{listTimetable[day]}}</li>
+        <br>
+        {% endfor %}
+    </ul>
+{% endblock %}
