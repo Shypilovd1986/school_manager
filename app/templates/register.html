@@ -3,3 +3,35 @@
 {% block title %}
 <title>Регистрация на сайте</title>
 {% endblock %}
+
+{% block content %}
+
+{% for category, message in get_flashed_messages(True) %}
+<div class="flash {{category}}">{{message}}</div>
+{% endfor %}
+
+<div class="container">
+    <form name="register" action="/register" method="post" class="" >
+        <fieldset class="form-group">
+            <legend>Регистрация</legend>
+            <p><label>Имя</label><br>
+            <input type="text" placeholder="Введите имя" name="firstName" required><br>
+
+            <p><label>Фамилия</label><br>
+            <input type="text" placeholder="Введите фамилию" name="lastName" required><br>
+
+            <p><label>Почта</label><br>
+            <input type="text" placeholder="Введите почту" name="email" required><br>
+
+            <p><label>Пароль</label><br>
+            <input type="text" placeholder="Введите пароль" name="password" required><br>
+
+            <p><label>Подтверждение пароля</label><br>
+            <input type="text" placeholder="Введите пароль повторно" name="confirmPassword" required><br>
+
+            <p><input type="submit" value="Отправить">
+
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
