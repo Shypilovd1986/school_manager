@@ -3,3 +3,22 @@
 {% block title %}
 <title>Вход в аккаунт</title>
 {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <form name="login" action="/login" method="post" class="" >
+        <fieldset class="form-group">
+            <legend>Вход в аккаунт</legend>
+            <p><label>Почта</label><br>
+            <input type="text" placeholder="Введите почту" name="email" required><br>
+
+            <p><label>Пароль</label><br>
+            <input type="text" placeholder="Введите пароль" name="password" required><br>
+
+            <p>
+            <input type="submit" value="Войти">
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

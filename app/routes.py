@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, flash
+from flask import render_template, request, flash, session, redirect, url_for, abort
 
 @app.route('/index')
 @app.route('/home')
@@ -30,4 +30,10 @@ def login():
 @app.route('/logout')
 def logout():
     return render_template('logout.html', logout=True)
+
+@app.errorhandler(404)
+def pageNotFound(error):
+    return render_template('page404.html'), 404
+
+
 
