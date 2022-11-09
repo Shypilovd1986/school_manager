@@ -1,17 +1,16 @@
 from flask import Flask
 from config import Config
 import os
-import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 
+
 app = Flask(__name__)
 app.config.from_object(Config)
+
 bootstrap = Bootstrap(app)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///school_manager.db'
 db = SQLAlchemy(app)
-db.init_app(app)
 
 
 # def connect_db():

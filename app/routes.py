@@ -34,10 +34,10 @@ def register():
             flash('Подтвержденный пароль и пароль не совпадают!', category='error')
         else:
             user = User(firstName=firstName, lastName=lastName, email=email, password=password)
+
             try:
                 db.session.add(user)
                 db.session.commit()
-                flash('Регистрация прошла успешно', category='success')
                 return redirect('/')
             except:
                 return 'При регистрации  произошла ошибка'
