@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block content %}
-    <p>
-        Some useful information
-    </p>
+    <div>
+        {{ moment.include_moment() }}
+        <p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
+    </div>
 {% endblock %}

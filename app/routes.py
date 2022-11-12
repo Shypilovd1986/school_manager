@@ -1,18 +1,14 @@
 from app import app, db
-from flask import render_template, request, flash, session, redirect, url_for, abort, current_app
+from flask import render_template, request, flash, session, redirect, url_for
 from app.models import User
-
-@app.route('/data')
-def get_data():
-
-    return request.environ
+from datetime import datetime
 
 
 @app.route('/index')
 @app.route('/home')
 @app.route('/')
 def index():
-    return render_template('index.html', index=True)
+    return render_template('index.html', index=True, current_time=datetime.utcnow())
 
 listTimetable={'Monday': ['Algebra', 'Chemistry', 'Literature', 'Music'],
            'Thusday': ['Technology ', 'Algebra', 'History', 'Music']
@@ -38,6 +34,7 @@ def register():
             try:
                 db.session.add(user)
                 db.session.commit()
+                # flash('Вы успешно зарегестрированы!!', category='success')
                 return redirect('/')
             except:
                 return 'При регистрации  произошла ошибка'
@@ -45,16 +42,37 @@ def register():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    if session.get('username'):
+        return redirect(url_for('index'))
+
     if request.method == 'POST':
-        if 'userLogged' in session:
-            return redirect(url_for('index', username=session['userLogged']))
+        if 'username' in session:
+            session['username'] = request.form['email']
+            print('method 11111')
+            return redirect(url_for('index', username=session['email']))
         elif request.form['email'] == 'shypilovd@gmail.com' and request.form['password'] == '19865421':
             session['userLogged'] = request.form['email']
             return redirect(url_for('index', username=session['userLogged']))
     return render_template('login.html', login=True)
 
+   # form = LoginForm()
+   #  if form.validate_on_submit():
+   #      email       = form.email.data
+   #      password    = form.password.data
+   #
+   #      user = User.objects(email=email).first()
+   #      if user and user.get_password(password):
+   #          flash(f"{user.first_name}, you are successfully logged in!", "success")
+   #          session['user_id'] = user.user_id
+   #          session['username'] = user.first_name
+   #          return redirect("/index")
+   #      else:
+   #          flash("Sorry, something went wrong.","danger")
+
 @app.route('/logout')
 def logout():
+    session.pop('username', None)
+    # session['user_id'] = False
     return render_template('logout.html', logout=True)
 
 @app.errorhandler(404)

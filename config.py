@@ -7,3 +7,10 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///school_manager.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+# write in terminal
+# export FLASK_APP=app
+# flask shell
+
+# from app import db
+# from app.models import User
+# db.create_all()

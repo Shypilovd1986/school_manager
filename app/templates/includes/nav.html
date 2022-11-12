@@ -4,9 +4,9 @@
                 <li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link {% if index %}active{% endif %}">Главная страница</a></li>
                 <li class="nav-item"><a href="{{ url_for('timetable') }}" class="nav-link {% if timetable %}active{% endif %}">Расписание уроков</a></li>
 
-               <!-- {% if not session['username'] %}-->
+                {% if not session['username'] %}
                 <li class="nav-item"><a href="{{ url_for('register') }}" class="nav-link {% if register %}active{% endif %}">Регистрация на сайте</a></li>
-                <!-- {% endif %}-->
+                {% endif %}
 
                 {% if not session['username'] %}
                 <li class="nav-item"><a href="{{ url_for('login') }}" class="nav-link {% if login %}active{% endif %}">Вход</a></li>
