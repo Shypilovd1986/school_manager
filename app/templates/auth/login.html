@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Вход в аккаунт</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <form name="login" action="/login" method="post" novalidate >
+        <fieldset class="form-group">
+            <legend>Вход в аккаунт</legend>
+
+                {{ form.hidden_tag() }}
+
+                    <p>
+                        {{ form.email.label }}<br>
+                        {{ form.email(size=35) }}
+                        {% for error in form.email.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </p>
+
+                    <p>
+                        {{ form.password.label }}<br>
+                        {{ form.password(size=15) }}
+                        {% for error in form.password.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </p>
+
+                    <p>
+                        {{ form.remember_me.label }}
+                        {{ form.remember_me() }}
+                        {% for error in form.remember_me.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </p>
+
+                    <p>
+                        {{ form.submit() }}
+                    </p>
+
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
+

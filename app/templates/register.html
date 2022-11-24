@@ -6,32 +6,52 @@
 
 {% block content %}
 
-{% for category, message in get_flashed_messages(True) %}
-<div class="flash {{category}}">{{message}}</div>
-{% endfor %}
-
 <div class="container">
-    <form name="register" action="/register" method="post" class="" >
-        <fieldset class="form-group">
-            <legend>Регистрация</legend>
-            <p><label>Имя</label><br>
-            <input type="text" placeholder="Введите имя" name="firstName" required><br>
+    <form name="register" action="" method="post" novalidate>
+    <fieldset class="form-group">
+            <legend>Регистрация пользователя на сайте</legend>
+            {{ form.hidden_tag() }}
+                <p> {{ form.first_name.label }} <br>
+                    {{ form.first_name() }}
+                    {% for error in form.first_name.errors %}
+                     <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </p>
 
-            <p><label>Фамилия</label><br>
-            <input type="text" placeholder="Введите фамилию" name="lastName" required><br>
+                 <p> {{ form.last_name.label }} <br>
+                    {{ form.last_name() }}
+                    {% for error in form.last_name.errors %}
+                     <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                 </p>
 
-            <p><label>Почта</label><br>
-            <input type="text" placeholder="Введите почту" name="email" required><br>
+                 <p> {{ form.email.label }} <br>
+                    {{ form.email() }}
+                    {% for error in form.email.errors %}
+                     <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </p>
 
-            <p><label>Пароль</label><br>
-            <input type="text" placeholder="Введите пароль" name="password" required><br>
+                 <p> {{ form.password.label }}<br>
+                    {{ form.password() }}
+                    {% for error in form.password.errors %}
+                     <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </p>
 
-            <p><label>Подтверждение пароля</label><br>
-            <input type="text" placeholder="Введите пароль повторно" name="confirmPassword" required><br>
+                 <p> {{ form.confirmPassword.label }}<br>
+                    {{ form.confirmPassword() }}
+                    {% for error in form.confirmPassword.errors %}
+                     <span class="error-message">{{ error }}</span>
+                    {% endfor %}
+                </p>
 
-            <p><input type="submit" value="Зарегистрироваться">
+                <p>{{form.submit()}}</p>
 
-        </fieldset>
+
+    </fieldset>
+
     </form>
 </div>
+
 {% endblock %}

@@ -1,7 +1,8 @@
 from app import app, db
 from flask import render_template, request, flash, session, redirect, url_for
-from app.models import User
 from datetime import datetime
+from app.forms import RegistrationForm
+from app.models import User
 
 
 @app.route('/index')
@@ -10,50 +11,45 @@ from datetime import datetime
 def index():
     return render_template('index.html', index=True, current_time=datetime.utcnow())
 
-listTimetable={'Monday': ['Algebra', 'Chemistry', 'Literature', 'Music'],
-           'Thusday': ['Technology ', 'Algebra', 'History', 'Music']
-               }
+
+list_timetable = {'Monday': ['Algebra', 'Chemistry', 'Literature', 'Music'],
+                  'thursday': ['Technology ', 'Algebra', 'History', 'Music']
+                  }
+
+
 @app.route('/timetable')
 def timetable():
-    return render_template('timetable.html', listTimetable=listTimetable, timetable=True)
+    return render_template('timetable.html', list_timetable=list_timetable, timetable=True)
+
 
 @app.route('/register', methods=["POST", "GET"])
 def register():
-    if request.method == 'POST':
-        firstName = request.form['firstName']
-        lastName = request.form['lastName']
-        email = request.form['email']
-        password = request.form['password']
-        if len(request.form['firstName']) < 3 or len(request.form['lastName']) < 3:
-            flash('Слишком короткое имя или фамилия', category='error')
-        elif request.form['password'] != request.form['confirmPassword']:
-            flash('Подтвержденный пароль и пароль не совпадают!', category='error')
-        else:
-            user = User(firstName=firstName, lastName=lastName, email=email, password=password)
-
-            try:
-                db.session.add(user)
-                db.session.commit()
-                # flash('Вы успешно зарегестрированы!!', category='success')
-                return redirect('/')
-            except:
-                return 'При регистрации  произошла ошибка'
-    return render_template('register.html', register=True)
-
-@app.route('/login', methods=['GET','POST'])
-def login():
     if session.get('username'):
         return redirect(url_for('index'))
 
-    if request.method == 'POST':
-        if 'username' in session:
-            session['username'] = request.form['email']
-            print('method 11111')
-            return redirect(url_for('index', username=session['email']))
-        elif request.form['email'] == 'shypilovd@gmail.com' and request.form['password'] == '19865421':
-            session['userLogged'] = request.form['email']
-            return redirect(url_for('index', username=session['userLogged']))
-    return render_template('login.html', login=True)
+    form = RegistrationForm()
+
+    if form.validate_on_submit():
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        email = form.email.data
+        password = form.password.data
+
+        user = User(first_name=first_name, last_name=last_name, email=email, password=password)
+        user.set_password(password)
+
+        try:
+            db.session.add(user)
+            db.session.commit()
+            flash('Вы успешно зарегестрированы!!', category='success')
+            return redirect('/')
+
+        except:
+            return 'При регистрации  произошла ошибка'
+        # user.set_password(password)
+
+    return render_template("register.html", form=form, register=True)
+
 
    # form = LoginForm()
    #  if form.validate_on_submit():
@@ -69,12 +65,19 @@ def login():
    #      else:
    #          flash("Sorry, something went wrong.","danger")
 
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     # session['user_id'] = False
     return render_template('logout.html', logout=True)
 
+
 @app.errorhandler(404)
-def pageNotFound(error):
+def page_not_found(error):
     return render_template('page404.html'), 404
+
+
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User)
