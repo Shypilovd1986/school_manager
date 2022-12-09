@@ -1,8 +1,10 @@
-from app import app, db
+from app import app, db, mail
 from flask import render_template, request, flash, session, redirect, url_for
 from datetime import datetime
 from app.forms import RegistrationForm
 from app.models import User
+from flask_login import login_required
+from flask_mail import Message
 
 
 @app.route('/index')
@@ -18,9 +20,16 @@ list_timetable = {'Monday': ['Algebra', 'Chemistry', 'Literature', 'Music'],
 
 
 @app.route('/timetable')
+@login_required
 def timetable():
-    return render_template('timetable.html', list_timetable=list_timetable, timetable=True)
 
+    with app.app_context():
+        msg = Message(subject="Hello",
+                      sender="admin_school_manager",
+                      recipients=["shypilovd@gmail.com"],
+                      body="This is a test email I sent with Gmail and Python!")
+        mail.send(msg)
+    return render_template('timetable.html', list_timetable=list_timetable, timetable=True)
 
 @app.route('/register', methods=["POST", "GET"])
 def register():
@@ -49,33 +58,7 @@ def register():
         # user.set_password(password)
 
     return render_template("register.html", form=form, register=True)
-
-
-   # form = LoginForm()
-   #  if form.validate_on_submit():
-   #      email       = form.email.data
-   #      password    = form.password.data
-   #
-   #      user = User.objects(email=email).first()
-   #      if user and user.get_password(password):
-   #          flash(f"{user.first_name}, you are successfully logged in!", "success")
-   #          session['user_id'] = user.user_id
-   #          session['username'] = user.first_name
-   #          return redirect("/index")
-   #      else:
-   #          flash("Sorry, something went wrong.","danger")
-
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    # session['user_id'] = False
-    return render_template('logout.html', logout=True)
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('page404.html'), 404
+#
 
 
 @app.shell_context_processor

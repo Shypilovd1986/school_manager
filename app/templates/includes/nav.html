@@ -11,7 +11,7 @@
                 {% if not session['username'] %}
                 <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link {% if login %}active{% endif %}">Вход</a></li>
                 {% else %}
-                <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link">Выход</a></li>
+                <li class="nav-item"><a href="{{ url_for('auth.logout') }}" class="nav-link ">Выход</a></li>
                 {% endif %}
             </ul>
         </nav>
