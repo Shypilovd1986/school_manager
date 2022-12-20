@@ -1,4 +1,5 @@
 import os
+from mail_credentials import MAIL_PASSWORD_LOGIN, MAIL_USERNAME_LOGIN
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -11,7 +12,6 @@ class Config(object):
     MAIL_PORT = 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
-
+    MAIL_USERNAME = MAIL_USERNAME_LOGIN
+    MAIL_PASSWORD = MAIL_PASSWORD_LOGIN
+    MAIL_SENDER = 'School Manager Admin <shypilovd@gmail.com>'

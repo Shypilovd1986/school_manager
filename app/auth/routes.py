@@ -1,13 +1,14 @@
-from flask import render_template, session, flash, redirect, request, url_for
+from flask import render_template, session, flash, redirect, url_for
 from . import auth
 from .forms import LoginForm
 from ..models import User
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required, current_user
+from app import db
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    if session.get('email'):
+    if session.get('../templates/auth/email'):
         return redirect(url_for('index'))
 
     form = LoginForm()
@@ -23,7 +24,7 @@ def login():
             # User.is_authenticated = True
             return redirect("/index")
         else:
-            flash(f"Sorry, something went wrong.{user}", "danger")
+            flash(f"Логин или пароль не верный!", "danger")
     return render_template("auth/login.html", form=form, login=True)
 
 
@@ -35,3 +36,17 @@ def logout():
     # User.is_authenticated = False
     # return redirect(url_for('index'))
     return render_template('auth/logout.html', logout=True)
+
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('index'))
+
+    if current_user.confirm(token):
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!')
+    else:
+        flash('The confirmation link is invalid or has expired.')
+    return redirect(url_for('index'))

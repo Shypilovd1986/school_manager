@@ -25,18 +25,19 @@ class User(UserMixin, db.Model):
 
     def generate_confirmation_token(self):
         s = Serializer(current_app.config['SECRET_KEY'])
-        return s.dumps({'confirm': self.id}).decode('utf-8')
+        return s.dumps({'confirm': self.id})
 
     def confirm(self, token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
-            data = s.loads(token.encode('utf-8'))
+            data = s.loads(token)
         except:
             return False
         if data.get('confirm') != self.id:
             return False
         self.confirmed = True
         db.session.add(self)
+        db.session.commit()
         return True
 
     def __repr__(self):
