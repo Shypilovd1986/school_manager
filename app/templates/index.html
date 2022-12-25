@@ -17,7 +17,7 @@
 <!--        </p>-->
         {% if not current_user.is_authenticated %}
         <p>
-            Новый пользователь? <a href="{{url_for('register')}}"> Перейти на страницу регистрации ! </a>
+            Новый пользователь? <a href="{{url_for('auth.register')}}"> Перейти на страницу регистрации ! </a>
         </p>
         {% endif %}
         <p>

@@ -1,13 +1,12 @@
-from app import app, db, mail
-from flask import render_template, flash, session, redirect, url_for
+from app import app, db
+from flask import render_template, redirect, url_for, Response, json
+from flask_login import current_user
 from datetime import datetime
-from app.forms import RegistrationForm
 from app.models import User
 from flask_login import login_required
-from app.useful_func import send_email
 
 
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 @app.route('/home')
 @app.route('/')
 def index():
@@ -15,43 +14,26 @@ def index():
 
 
 list_timetable = {'Monday': ['Algebra', 'Chemistry', 'Literature', 'Music'],
-                  'thursday': ['Technology ', 'Algebra', 'History', 'Music']
+                  'Thursday': ['Technology ', 'Algebra', 'History', 'Music']
                   }
 
 
 @app.route('/timetable')
 @login_required
 def timetable():
+    if not current_user.confirmed:
+        redirect(url_for('auth.unconfirmed'))
     return render_template('timetable.html', list_timetable=list_timetable, timetable=True)
 
 
-@app.route('/register', methods=["POST", "GET"])
-def register():
-    if session.get('username'):
-        return redirect(url_for('index'))
-
-    form = RegistrationForm()
-
-    if form.validate_on_submit():
-        first_name = form.first_name.data
-        last_name = form.last_name.data
-        email = form.email.data
-        password = form.password.data
-
-        user = User(first_name=first_name, last_name=last_name, email=email, password=password)
-        user.set_password(password)
-        try:
-            db.session.add(user)
-            db.session.commit()
-            token = user.generate_confirmation_token()
-            send_email(user.email, 'Подтвердите регистрацию!', 'auth/email/confirm', user=user, token=token)
-            flash('Вы успешно зарегестрированы!! Подтверждение было отправлено на вашу почту', category='success')
-            return redirect(url_for('index'))
-        except:
-            return 'При регистрации  произошла ошибка'
-
-    return render_template("register.html", form=form, register=True)
-#
+@app.route('/api')
+@app.route('/api/<day>')
+def show_timetable(day=None):
+    if day is None:
+        day_timetable = list_timetable
+    else:
+        day_timetable = list_timetable[day]
+    return Response(json.dumps(day_timetable), mimetype="application/json")
 
 
 @app.shell_context_processor

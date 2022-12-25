@@ -2,6 +2,3 @@
 Добро пожаловать в школьный менеджер!!!
 Для подтверждения своего аккаунта пожалуйста перейдите по ссылке:
 {{ url_for('auth.confirm', token=token, _external=True) }}
-Sincerely,
-The Flasky Team
-Note: replies to this email address are not monitored.

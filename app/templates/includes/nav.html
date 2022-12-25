@@ -5,10 +5,7 @@
                 <li class="nav-item"><a href="{{ url_for('timetable') }}" class="nav-link {% if timetable %}active{% endif %}">Расписание уроков</a></li>
 
                 {% if not session['username'] %}
-                <li class="nav-item"><a href="{{ url_for('register') }}" class="nav-link {% if register %}active{% endif %}">Регистрация на сайте</a></li>
-                {% endif %}
-
-                {% if not session['username'] %}
+                <li class="nav-item"><a href="{{ url_for('auth.register') }}" class="nav-link {% if register %}active{% endif %}">Регистрация на сайте</a></li>
                 <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link {% if login %}active{% endif %}">Вход</a></li>
                 {% else %}
                 <li class="nav-item"><a href="{{ url_for('auth.logout') }}" class="nav-link ">Выход</a></li>
