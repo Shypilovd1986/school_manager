@@ -24,6 +24,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 from .auth import auth as auth_blueprint
+from .personal_cabinet import personal_cabinet
 app.register_blueprint(auth_blueprint)# (url_prefix='/auth')
+app.register_blueprint(personal_cabinet)
 
 from app import routes, errors

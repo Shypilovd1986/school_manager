@@ -86,6 +86,7 @@ def register():
 
     return render_template("auth/register.html", form=form, register=True)
 
+
 @auth.before_app_request
 def before_any_request():
     if current_user.is_authenticated \
