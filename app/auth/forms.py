@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from app.models import User
 
 
 class LoginForm(FlaskForm):
     email = StringField("Почтовый адрес", validators=[DataRequired(message='Заполните поле!'), Email('Некорректный email')])
-    password = PasswordField("Пароль", validators=[DataRequired(message='Заполните поле!'), Length(min=8, max=30, message='Пароль должен быть от 8 до 30 символов')])
+    password = StringField("Пароль", validators=[DataRequired(message='Заполните поле!'), Length(min=8, max=30, message='Пароль должен быть от 8 до 30 символов')])
     remember_me = BooleanField("Запомнить меня")
     submit = SubmitField("Войти")
 
@@ -18,9 +18,9 @@ class RegistrationForm(FlaskForm):
                                                                                     ' больше 2 и меньше 10 символов')])
     email = StringField("Почтовый адрес", validators=[DataRequired(), Length(min=2, max=30, message='Почта должна быть'
                                                                 ' не больше 30 символов'), Email('Некорректный email')])
-    password = PasswordField("Пароль", validators=[DataRequired(), Length(min=8, max=30, message='Пароль должен быть '
+    password = StringField("Пароль", validators=[DataRequired(), Length(min=8, max=30, message='Пароль должен быть '
                                                                                                'от 8 до 30 символов')])
-    confirmPassword = PasswordField("Подтверждение пароля", validators=[DataRequired(), EqualTo("password",
+    confirmPassword = StringField("Подтверждение пароля", validators=[DataRequired(), EqualTo("password",
                                                                                     message='Пароли не совпадают')])
     submit = SubmitField("Зарегистрироваться")
 
