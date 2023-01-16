@@ -1,9 +1,16 @@
 from app import app, db
-from flask import render_template, redirect, url_for, Response, json
+from flask import render_template, redirect, url_for, Response, json, jsonify
 from flask_login import current_user
 from datetime import datetime
 from app.models import User
 from flask_login import login_required
+# from flask_restplus import Resource
+
+
+# @api.route('/api1', '/api1/')
+# class GetAndPost(Resource):
+#     def get_data(self):
+#         return jsonify(User.query.all())
 
 
 @app.route('/index', methods=['GET', 'POST'])
@@ -33,8 +40,8 @@ def show_timetable(day=None):
         day_timetable = list_timetable
     else:
         day_timetable = list_timetable[day]
-    return Response(json.dumps(day_timetable), mimetype="application/json")
-
+    # return Response(json.dumps(day_timetable), mimetype="application/json")
+    return jsonify(day_timetable)
 
 @app.shell_context_processor
 def make_shell_context():

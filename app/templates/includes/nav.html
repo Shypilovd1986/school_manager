@@ -8,7 +8,7 @@
                 <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link {% if login %}active{% endif %}">Вход</a></li>
                 {% else %}
                 <li class="nav-item"><a href="{{ url_for('timetable') }}" class="nav-link {% if timetable %}active{% endif %}">Расписание уроков</a></li>
-                <li class="nav-item"><a href="{{ url_for('personal_cabinet.personal_cabinet') }}" class="nav-link {% if personal_cabinet %} active {% endif %}">Личный кабинет</a></li>
+                <li class="nav-item"><a href="{{ url_for('personal_cabinet.change_password') }}" class="nav-link {% if personal_cabinet %} active {% endif %}">Личный кабинет</a></li>
                 <li class="nav-item"><a href="{{ url_for('auth.logout') }}" class="nav-link ">Выход</a></li>
                 {% endif %}
             </ul>
