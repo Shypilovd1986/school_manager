@@ -3,10 +3,11 @@
             <ul class="nav nav-pills">
                {% if session['username'] %}
                 <li class="nav-item"><a href="{{ url_for('personal_cabinet.change_password') }}" class="nav-link {% if change_password %}active{% endif %}">Изменить пароль</a></li>
-                <li class="nav-item"><a href="{{ url_for('personal_cabinet.reset_password') }}" class="nav-link {% if reset_password %}active{% endif %}">Сброс пароля</a></li>
                 <li class="nav-item"><a href="{{ url_for('personal_cabinet.change_email') }}" class="nav-link {% if change_email %} active {% endif %}">Изменить почту</a></li>
                 {% endif %}
             </ul>
         </nav>
+        {% if session['username'] %}
         <hr style="clear:both">
+        {% endif %}
     </header>
