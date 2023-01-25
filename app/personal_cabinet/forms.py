@@ -28,3 +28,12 @@ class NewResetPassword(FlaskForm):
                                                                                                      message='Пароль должен быть от 8 до 30 символов'),
                                                      EqualTo('new_reset_password', message='Пароли не совпадают')])
     submit = SubmitField('Подтвердить')
+
+
+class ChangeEmail(FlaskForm):
+    current_email = StringField('Текущая почта', validators=[DataRequired(message='Заполните поле!'), Email('Некорректный email')])
+    new_email = StringField('Новая почта', validators=[DataRequired(message='Заполните поле!'), Email('Некорректный email')])
+    confirm_new_email = StringField('Введите повторно новую почту', validators=[DataRequired(message='Заполните поле!'), Email('Некорректный email'),
+                                                                 EqualTo('new_email', message='Почты не совпадает')])
+    submit = SubmitField('Подтвердить')
+

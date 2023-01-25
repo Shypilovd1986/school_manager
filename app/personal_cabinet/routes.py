@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, session
 from flask_login import logout_user, login_required, current_user
 from . import personal_cabinet
-from .forms import ChangePassword, ResetPassword, NewResetPassword
+from .forms import ChangePassword, ResetPassword, NewResetPassword, ChangeEmail
 from .. import db
 from werkzeug.security import generate_password_hash
 from ..models import User
@@ -66,7 +66,11 @@ def new_reset_password(token):
             return 'При изменение пароля произошла ошибка'
     return render_template('personal_cabinet/new_reset_password.html', form=form)
 
+
 @personal_cabinet.route('/change_email', methods=['GET', 'POST'])
 @login_required
 def change_email():
-    return render_template('personal_cabinet/change_email.html', change_email=True, personal_cabinet=True)
+    form = ChangeEmail()
+    current_email = form.current_email.data
+    new_email = form.new_email.data
+    return render_template('personal_cabinet/change_email.html', change_email=True, personal_cabinet=True, form=form)
